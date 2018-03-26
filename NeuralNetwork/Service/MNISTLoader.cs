@@ -54,10 +54,10 @@ namespace NeuralNetwork.Service
 
             for (int imageNum = 0; imageNum < images; imageNum++)
             {
-                double[,] image = new double[1, area];
+                double[,] image = new double[area, 1];
                 for (int px = 0; px < area; px++)
                 {
-                    image[0, px] = imageBytes[16 + (imageNum * area) + px];
+                    image[px, 0] = imageBytes[16 + (imageNum * area) + px];
                 }
                 output.Add(image);
             }
@@ -98,9 +98,9 @@ namespace NeuralNetwork.Service
 
         private double[,] IntToVector(int number)
         {
-            double[,] output = new double[1, 10];
+            double[,] output = new double[10, 1];
 
-            output[0, number] = 1;
+            output[number, 0] = 1;
 
             return output;
         }
