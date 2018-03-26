@@ -42,22 +42,14 @@ namespace NeuralNetwork.Service
             return errorState;
         }
 
-        private int ToInt(byte[] input, int index)
-        {
-            byte[] endian = new byte[4];
-            Array.Copy(input, index, endian, 0, 4);
-            Array.Reverse(endian);
-            return BitConverter.ToInt32(endian, 0);
-        }
-
         private List<double[,]> LoadImages()
         {
             imageFileStream.Read(imageBytes, 0, imageBytes.Length);
             List<double[,]> output = new List<double[,]>();
 
-            int images = ToInt(imageBytes, 4);
-            int rows = ToInt(imageBytes, 8);
-            int cols = ToInt(imageBytes, 12);
+            int images = ByteToInt(imageBytes, 4);
+            int rows = ByteToInt(imageBytes, 8);
+            int cols = ByteToInt(imageBytes, 12);
             int area = rows * cols;
 
             for (int imageNum = 0; imageNum < images; imageNum++)
@@ -78,7 +70,7 @@ namespace NeuralNetwork.Service
             labelFileStream.Read(labelBytes, 0, labelBytes.Length);
             List<Tuple<double[,], double[,]>> output = new List<Tuple<double[,], double[,]>>();
 
-            int labels = ToInt(labelBytes, 4);//BitConverter.ToInt32(labelBytes, 4);
+            int labels = ByteToInt(labelBytes, 4);
 
             if (labels == images.Count)
             {
@@ -94,6 +86,14 @@ namespace NeuralNetwork.Service
             }
 
             return output;
+        }
+        
+        private int ByteToInt(byte[] input, int index)
+        {
+            byte[] endian = new byte[4];
+            Array.Copy(input, index, endian, 0, 4);
+            Array.Reverse(endian);
+            return BitConverter.ToInt32(endian, 0);
         }
 
         private double[,] IntToVector(int number)
