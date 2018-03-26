@@ -15,6 +15,10 @@ namespace NeuralNetwork
         public Form1()
         {
             InitializeComponent();
+            //List<int> size = new List<int> { 3, 5, 2 };
+            //Core.NeuralNet network = new Core.NeuralNet(size);
+            //Service.XMLBridge.Save(network, "XMLTest.xml");
+            Core.NeuralNet network = Service.XMLBridge.Load("XMLTest.xml");
         }
     }
 }

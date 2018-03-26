@@ -13,6 +13,7 @@ namespace NeuralNetwork.Core
         private List<int> sizes;
         private List<double[,]> weights, biases;
 
+        // Seeds new NeuralNet
         public NeuralNet(List<int> layerSizes)
         {
             numberLayers = layerSizes.Count;
@@ -30,6 +31,20 @@ namespace NeuralNetwork.Core
             for (int layer = 1; layer < numberLayers; layer++)
             {
                 biases.Add(SeedBiases(sizes[layer]));
+            }
+        }
+
+        // Loads NeuralNet
+        public NeuralNet(List<double[,]> weights, List<double[,]> biases)
+        {
+            this.weights = weights;
+            this.biases = biases;
+            this.numberLayers = weights.Count;
+
+            sizes = new List<int>();
+            for (int layer = 0; layer < numberLayers; layer++)
+            {
+                sizes.Add(weights[layer].GetLength(1));
             }
         }
 
@@ -133,6 +148,26 @@ namespace NeuralNetwork.Core
         private int Evaluate(List<Tuple<double[,], double[,]>> testData)
         {
             return 0;
+        }
+
+        public int GetNumLayers()
+        {
+            return numberLayers;
+        }
+
+        public Tuple<int, int> GetWeightDimensions(int layer)
+        {
+            return Tuple.Create<int, int>(weights[layer].GetLength(0), weights[layer].GetLength(1));
+        }
+
+        public double[,] GetWeights(int layer)
+        {
+            return weights[layer];
+        }
+
+        public double[,] GetBiases(int layer)
+        {
+            return biases[layer];
         }
     }
 }
