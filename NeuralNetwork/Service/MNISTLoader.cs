@@ -12,7 +12,7 @@ namespace NeuralNetwork.Service
         private FileStream imageFileStream, labelFileStream;
         private byte[] imageBytes, labelBytes;
         private bool errorState = false;
-        public List<Tuple<double[,], int>> Data;
+        public List<Tuple<double[,], double[,]>> Data;
 
         public MNISTLoader(string imageFilePath, string labelFilePath)
         {
@@ -42,14 +42,22 @@ namespace NeuralNetwork.Service
             return errorState;
         }
 
+        private int ToInt(byte[] input, int index)
+        {
+            byte[] endian = new byte[4];
+            Array.Copy(input, index, endian, 0, 4);
+            Array.Reverse(endian);
+            return BitConverter.ToInt32(endian, 0);
+        }
+
         private List<double[,]> LoadImages()
         {
             imageFileStream.Read(imageBytes, 0, imageBytes.Length);
             List<double[,]> output = new List<double[,]>();
 
-            int images = BitConverter.ToInt32(imageBytes, 4);
-            int rows = BitConverter.ToInt32(imageBytes, 8);
-            int cols = BitConverter.ToInt32(imageBytes, 12);
+            int images = ToInt(imageBytes, 4);
+            int rows = ToInt(imageBytes, 8);
+            int cols = ToInt(imageBytes, 12);
             int area = rows * cols;
 
             for (int imageNum = 0; imageNum < images; imageNum++)
@@ -57,7 +65,7 @@ namespace NeuralNetwork.Service
                 double[,] image = new double[1, area];
                 for (int px = 0; px < area; px++)
                 {
-                    image[1, px] = imageBytes[16 + (imageNum * area) + px];
+                    image[0, px] = imageBytes[16 + (imageNum * area) + px];
                 }
                 output.Add(image);
             }
@@ -65,18 +73,18 @@ namespace NeuralNetwork.Service
             return output;
         }
 
-        private List<Tuple<double[,], int>> LoadLabels(List<double[,]> images)
+        private List<Tuple<double[,], double[,]>> LoadLabels(List<double[,]> images)
         {
             labelFileStream.Read(labelBytes, 0, labelBytes.Length);
-            List<Tuple<double[,], int>> output = new List<Tuple<double[,], int>>();
+            List<Tuple<double[,], double[,]>> output = new List<Tuple<double[,], double[,]>>();
 
-            int labels = BitConverter.ToInt32(labelBytes, 4);
+            int labels = ToInt(labelBytes, 4);//BitConverter.ToInt32(labelBytes, 4);
 
             if (labels == images.Count)
             {
                 for (int label = 0; label < labels; label++)
                 {
-                    Tuple<double[,], int> imageLabel = Tuple.Create<double[,], int>(images[label], (int)labelBytes[8 + label]);
+                    Tuple<double[,], double[,]> imageLabel = Tuple.Create<double[,], double[,]>(images[label], IntToVector((int)labelBytes[8 + label]));
                     output.Add(imageLabel);
                 }
             }
@@ -84,6 +92,15 @@ namespace NeuralNetwork.Service
             {
                 errorState = true;
             }
+
+            return output;
+        }
+
+        private double[,] IntToVector(int number)
+        {
+            double[,] output = new double[1, 10];
+
+            output[0, number] = 1;
 
             return output;
         }
