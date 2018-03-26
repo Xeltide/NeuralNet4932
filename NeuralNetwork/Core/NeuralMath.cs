@@ -44,7 +44,7 @@ namespace NeuralNetwork.Core
         public static double[,] DotMatrix(double[,] leftMatrix, double[,] rightMatrix)
         {
             int rows = leftMatrix.GetLength(0);
-            int cols = rightMatrix.GetLength(1);
+            int cols = rightMatrix.GetLength(0);
             int xSize = leftMatrix.GetLength(1) == rightMatrix.GetLength(0) ?
                 leftMatrix.GetLength(1) : 0;
             double[,] output = new double[rows, cols];
