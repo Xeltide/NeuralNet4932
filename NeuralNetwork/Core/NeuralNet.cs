@@ -24,7 +24,7 @@ namespace NeuralNetwork.Core
             // Generate seed weights
             for (int layer = 0; layer < numberLayers - 1; layer++)
             {
-                weights.Add(SeedWeights(sizes[layer], sizes[layer + 1]));
+                weights.Add(SeedWeights(sizes[layer + 1], sizes[layer]));
             }
 
             // Generate seed biases
@@ -50,11 +50,11 @@ namespace NeuralNetwork.Core
 
         private double[,] SeedBiases(int size)
         {
-            double[,] output = new double[1, size];
+            double[,] output = new double[size, 1];
 
             for (int bias = 0; bias < size; bias++)
             {
-                output[0, bias] = NeuralRandom.Instance.GetRandom(0, 1);
+                output[bias, 0] = NeuralRandom.Instance.GetRandom(0, 1);
             }
 
             return output;
@@ -81,20 +81,20 @@ namespace NeuralNetwork.Core
 
             for (int layer = 0; layer < numberLayers - 1; layer++)
             {
-                double[,] wa = NeuralMath.DotMatrix(weights[0], output);
+                double[,] wa = NeuralMath.DotMatrix(weights[layer], output);
                 output = NeuralMath.Sigmoid(NeuralMath.AddMatrix(wa, biases[layer]));
             }
 
             return output;
         }
 
-        private List<Tuple<double[,], double[,]>> BackPropogation(Tuple<double[,], int> batch)
+        private List<Tuple<double[,], double[,]>> BackPropogation(Tuple<double[,], double[,]> batch)
         {
             List<Tuple<double[,], double[,]>> nablas = new List<Tuple<double[,], double[,]>>();
             for (int i = 0; i < numberLayers - 1; i++)
             {
                 nablas.Add(Tuple.Create(
-                    new double[weights[i].GetLength(0), weights[i].GetLength(1)], new double[biases[i].GetLength(0), biases[i].GetLength(1)]));
+                    new double[biases[i].GetLength(0), biases[i].GetLength(1)], new double[weights[i].GetLength(0), weights[i].GetLength(1)]));
             }
 
             // feed forward
@@ -111,7 +111,7 @@ namespace NeuralNetwork.Core
             }
 
             // backward pass
-            double[,] delta = NeuralMath.DotMatrix(NeuralMath.CostDerivative(activations[activations.Count - 1], batch.Item2),
+            double[,] delta = NeuralMath.MultiplyMatrix(NeuralMath.CostDerivative(activations[activations.Count - 1], batch.Item2),
                                                     NeuralMath.SigmoidPrime(zs[zs.Count - 1]));
             double[,] nablaB = delta;
             double[,] nablaW = NeuralMath.DotMatrix(delta, NeuralMath.Transpose(activations[activations.Count - 2]));
@@ -119,21 +119,22 @@ namespace NeuralNetwork.Core
 
             for (int l = 2; l < numberLayers; l++)
             {
-                double[,] z = zs[zs.Count - 1];
+                double[,] z = zs[zs.Count - l];
                 double[,] sp = NeuralMath.SigmoidPrime(z);
-                delta = NeuralMath.DotMatrix(NeuralMath.DotMatrix(weights[weights.Count - l + 1], delta), sp);
+                delta = NeuralMath.MultiplyMatrix(NeuralMath.DotMatrix(
+                                        NeuralMath.Transpose(weights[weights.Count - l + 1]), delta), sp);
                 nablaB = delta;
-                nablaW = NeuralMath.DotMatrix(delta, NeuralMath.Transpose(activations[activations.Count - l + 1]));
+                nablaW = NeuralMath.DotMatrix(delta, NeuralMath.Transpose(activations[activations.Count - l - 1]));
                 nablas[nablas.Count - l] = Tuple.Create(nablaB, nablaW);
             }
             return nablas;
         }
 
-        public void SGD(List<Tuple<double[,], int>> trainingData,
+        public void SGD(List<Tuple<double[,], double[,]>> trainingData,
             int epochs,
             int miniBatchSize,
             double eta,
-            List<Tuple<double[,], int>> testData = null)
+            List<Tuple<double[,], double[,]>> testData = null)
         {
             int nTest = 0;
             if (testData != null)
@@ -144,9 +145,9 @@ namespace NeuralNetwork.Core
 
             for (int epoch = 0; epoch < epochs; epoch++)
             {
-                List<Tuple<double[,], int>> shuffled = (List<Tuple<double[,], int>>)NeuralRandom.Instance.Shuffle(trainingData);
-                List<List<Tuple<double[,], int>>> miniBatches = SplitBatch(shuffled, miniBatchSize);
-                foreach (List<Tuple<double[,], int>> miniBatch in miniBatches)
+                List<Tuple<double[,], double[,]>> shuffled = (List<Tuple<double[,], double[,]>>)NeuralRandom.Instance.Shuffle(trainingData);
+                List<List<Tuple<double[,], double[,]>>> miniBatches = SplitBatch(shuffled, miniBatchSize);
+                foreach (List<Tuple<double[,], double[,]>> miniBatch in miniBatches)
                 {
                     UpdateMiniBatch(miniBatch, eta);
                 }
@@ -160,13 +161,13 @@ namespace NeuralNetwork.Core
             }
         }
 
-        private List<List<Tuple<double[,], int>>> SplitBatch(List<Tuple<double[,], int>> trainingData, int size)
+        private List<List<Tuple<double[,], double[,]>>> SplitBatch(List<Tuple<double[,], double[,]>> trainingData, int size)
         {
-            List<List<Tuple<double[,], int>>> output = new List<List<Tuple<double[,], int>>>();
+            List<List<Tuple<double[,], double[,]>>> output = new List<List<Tuple<double[,], double[,]>>>();
 
             for (int batch = 0; batch < trainingData.Count; batch += size)
             {
-                List<Tuple<double[,], int>> miniBatch = new List<Tuple<double[,], int>>();
+                List<Tuple<double[,], double[,]>> miniBatch = new List<Tuple<double[,], double[,]>>();
                 for (int i = 0; i < size; i++)
                 {
                     if (batch + i >= trainingData.Count)
@@ -181,7 +182,7 @@ namespace NeuralNetwork.Core
             return output;
         }
 
-        private void UpdateMiniBatch(List<Tuple<double[,], int>> miniBatch, double eta)
+        private void UpdateMiniBatch(List<Tuple<double[,], double[,]>> miniBatch, double eta)
         {
             List<Tuple<double[,], double[,]>> nablas = new List<Tuple<double[,], double[,]>>();
             for (int i = 0; i < numberLayers - 1; i++)
@@ -201,15 +202,43 @@ namespace NeuralNetwork.Core
                 }
             }
 
-            for (int i = 0; i < numberLayers - 1; i++) {
-                biases[i] = NeuralMath.SubtractMatrix(biases[i], NeuralMath.ScaleMatrix(nablas[i].Item2, eta / miniBatch.Count));
-                weights[i] = NeuralMath.SubtractMatrix(weights[i], NeuralMath.ScaleMatrix(nablas[i].Item1, eta / miniBatch.Count));
+            for (int i = 0; i < numberLayers - 1; i++)
+            {
+                biases[i] = NeuralMath.SubtractMatrix(biases[i], NeuralMath.ScaleMatrix(nablas[i].Item1, eta / miniBatch.Count));
+                weights[i] = NeuralMath.SubtractMatrix(weights[i], NeuralMath.ScaleMatrix(nablas[i].Item2, eta / miniBatch.Count));
             }
         }
 
-        private int Evaluate(List<Tuple<double[,], int>> testData)
+        private int Evaluate(List<Tuple<double[,], double[,]>> testData)
         {
-            return 0;
+            int count = 0;
+            for (int i = 0; i < testData.Count; i++)
+            {
+                double[,] output = FeedForward(testData[i].Item1);
+
+                int maxIndex = 0;
+                double maxValue = output[0, 0];
+                int expectedIndex = 0;
+                for (int row = 1; row < output.GetLength(0); row++)
+                {
+                    if (output[row, 0] > maxValue)
+                    {
+                        maxValue = output[row, 0];
+                        maxIndex = row;
+                    }
+                    if ((int)(Math.Round(testData[0].Item2[row, 0], MidpointRounding.AwayFromZero)) == 1)
+                    {
+                        expectedIndex = i;
+                    }
+                }
+
+                if (maxIndex == expectedIndex)
+                {
+                    count++;
+                }
+            }
+
+            return count;
         }
 
         public int GetNumLayers()
