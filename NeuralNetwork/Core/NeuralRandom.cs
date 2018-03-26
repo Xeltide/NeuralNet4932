@@ -37,10 +37,8 @@ namespace NeuralNetwork.Core
 
         public IEnumerable<T> Shuffle<T>(IEnumerable<T> enumerable)
         {
-            List<T> source = enumerable.ToList();
-            int n = source.Count;
-            List<T> shuffled = new List<T>(n);
-            shuffled.AddRange(source);
+            List<T> shuffled = new List<T>(enumerable);
+            int n = shuffled.Count;
             while (n > 1)
             {
                 n--;
