@@ -21,8 +21,11 @@ namespace NeuralNetwork
             testLoader.Load();
 
             List<int> size = new List<int> { 784, 30, 10 };
-            Core.NeuralNet network = new Core.NeuralNet(size);
-            network.SGD(loader.Data, 30, 10, 0.075, testLoader.Data);
+            //Core.NeuralNet network = new Core.NeuralNet(size);
+            Core.NeuralNet network = Service.XMLBridge.Load("BrainChild3.xml");
+            // 0.064, 0.066 best results so far (leaning 0.064)
+            network.SGD(loader.Data, 3, 10, 0.064, testLoader.Data);
+            Service.XMLBridge.Save(network, "BrainChild3.xml");
         }
     }
 }

@@ -38,10 +38,11 @@ namespace NeuralNetwork.Service
                     weightNode.AppendChild(weightChild);
                 }
                 // Generate bias nodes
-                for (int col = 0; col < dimensions.Item2; col++)
+                int biasRows = network.GetBiases(layer).GetLength(0);
+                for (int row = 0; row < biasRows; row++)
                 {
-                    XmlNode biasChild = doc.CreateElement("Col");
-                    biasChild.InnerText = "" + network.GetBiases(layer)[0, col];
+                    XmlNode biasChild = doc.CreateElement("Row");
+                    biasChild.InnerText = "" + network.GetBiases(layer)[row, 0];
                     biasNode.AppendChild(biasChild);
                 }
                 root.AppendChild(layerNode);
@@ -103,16 +104,16 @@ namespace NeuralNetwork.Service
         {
             // Load bias list
             List<double> biasWeights = new List<double>();
-            foreach (XmlNode col in biasTag.ChildNodes)
+            foreach (XmlNode row in biasTag.ChildNodes)
             {
-                biasWeights.Add(Double.Parse(col.InnerText));
+                biasWeights.Add(Double.Parse(row.InnerText));
             }
 
             // Convert to 2D matrix
-            double[,] biasMatrix = new double[1, biasWeights.Count];
-            for (int col = 0; col < biasMatrix.GetLength(1); col++)
+            double[,] biasMatrix = new double[biasWeights.Count, 1];
+            for (int row = 0; row < biasMatrix.GetLength(0); row++)
             {
-                biasMatrix[0, col] = biasWeights[col];
+                biasMatrix[row, 0] = biasWeights[row];
             }
 
             return biasMatrix;

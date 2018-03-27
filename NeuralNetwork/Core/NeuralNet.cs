@@ -39,13 +39,7 @@ namespace NeuralNetwork.Core
         {
             this.weights = weights;
             this.biases = biases;
-            this.numberLayers = weights.Count;
-
-            sizes = new List<int>();
-            for (int layer = 0; layer < numberLayers; layer++)
-            {
-                sizes.Add(weights[layer].GetLength(1));
-            }
+            this.numberLayers = weights.Count + 1;
         }
 
         private double[,] SeedBiases(int size)
@@ -231,7 +225,7 @@ namespace NeuralNetwork.Core
                     }
                 }
 
-                Console.WriteLine("Guess: " + maxIndex + " | Expected: " + expectedIndex);
+                //Console.WriteLine("Guess: " + maxIndex + " | Expected: " + expectedIndex);
 
                 if (maxIndex == expectedIndex)
                 {
