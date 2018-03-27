@@ -15,7 +15,10 @@ namespace NeuralNetwork.Core
 
             for (int i = 0; i < z.GetLength(0); i++)
             {
-                output[i, 0] = 1.0 / (1.0 + Math.Pow(Math.E, -z[i, 0]));
+                for (int j = 0; j < z.GetLength(1); j++)
+                {
+                    output[i, j] = 1.0 / (1.0 + Math.Pow(Math.E, -z[i, j]));
+                }
             }
 
             return output;
@@ -28,8 +31,10 @@ namespace NeuralNetwork.Core
             double[,] sigmoid = Sigmoid(z);
             for (int i = 0; i < z.GetLength(0); i++)
             {
-
-                output[i, 0] = sigmoid[i, 0] * (1 - sigmoid[i, 0]);
+                for (int j = 0; j < z.GetLength(1); j++)
+                {
+                    output[i, j] = sigmoid[i, j] * (1.0 - sigmoid[i, j]);
+                }
             }
 
             return output;

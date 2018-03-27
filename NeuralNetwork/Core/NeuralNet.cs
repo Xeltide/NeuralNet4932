@@ -88,13 +88,14 @@ namespace NeuralNetwork.Core
             return output;
         }
 
-        private List<Tuple<double[,], double[,]>> BackPropogation(Tuple<double[,], double[,]> batch)
+        private Tuple<List<double[,]>, List<double[,]>> BackPropogation(Tuple<double[,], double[,]> batch)
         {
-            List<Tuple<double[,], double[,]>> nablas = new List<Tuple<double[,], double[,]>>();
+            List<double[,]> nablaB = new List<double[,]>();
+            List<double[,]> nablaW = new List<double[,]>();
             for (int i = 0; i < numberLayers - 1; i++)
             {
-                nablas.Add(Tuple.Create(
-                    new double[biases[i].GetLength(0), biases[i].GetLength(1)], new double[weights[i].GetLength(0), weights[i].GetLength(1)]));
+                nablaB.Add(new double[biases[i].GetLength(0), biases[i].GetLength(1)]);
+                nablaW.Add(new double[weights[i].GetLength(0), weights[i].GetLength(1)]);
             }
 
             // feed forward
@@ -113,9 +114,8 @@ namespace NeuralNetwork.Core
             // backward pass
             double[,] delta = NeuralMath.MultiplyMatrix(NeuralMath.CostDerivative(activations[activations.Count - 1], batch.Item2),
                                                     NeuralMath.SigmoidPrime(zs[zs.Count - 1]));
-            double[,] nablaB = delta;
-            double[,] nablaW = NeuralMath.DotMatrix(delta, NeuralMath.Transpose(activations[activations.Count - 2]));
-            nablas[nablas.Count - 1] = Tuple.Create(nablaB, nablaW);
+            nablaB[nablaB.Count - 1] = delta;
+            nablaW[nablaW.Count - 1] = NeuralMath.DotMatrix(delta, NeuralMath.Transpose(activations[activations.Count - 2]));
 
             for (int l = 2; l < numberLayers; l++)
             {
@@ -123,11 +123,10 @@ namespace NeuralNetwork.Core
                 double[,] sp = NeuralMath.SigmoidPrime(z);
                 delta = NeuralMath.MultiplyMatrix(NeuralMath.DotMatrix(
                                         NeuralMath.Transpose(weights[weights.Count - l + 1]), delta), sp);
-                nablaB = delta;
-                nablaW = NeuralMath.DotMatrix(delta, NeuralMath.Transpose(activations[activations.Count - l - 1]));
-                nablas[nablas.Count - l] = Tuple.Create(nablaB, nablaW);
+                nablaB[nablaB.Count - l] = delta;
+                nablaW[nablaW.Count - l] = NeuralMath.DotMatrix(delta, NeuralMath.Transpose(activations[activations.Count - l - 1]));
             }
-            return nablas;
+            return Tuple.Create(nablaB, nablaW);
         }
 
         public void SGD(List<Tuple<double[,], double[,]>> trainingData,
@@ -184,28 +183,28 @@ namespace NeuralNetwork.Core
 
         private void UpdateMiniBatch(List<Tuple<double[,], double[,]>> miniBatch, double eta)
         {
-            List<Tuple<double[,], double[,]>> nablas = new List<Tuple<double[,], double[,]>>();
+            List<double[,]> nablaB = new List<double[,]>();
+            List<double[,]> nablaW = new List<double[,]>();
             for (int i = 0; i < numberLayers - 1; i++)
             {
-                nablas.Add(Tuple.Create(
-                    new double[biases[i].GetLength(0), biases[i].GetLength(1)], new double[weights[i].GetLength(0), weights[i].GetLength(1)]));
+                nablaB.Add(new double[biases[i].GetLength(0), biases[i].GetLength(1)]);
+                nablaW.Add(new double[weights[i].GetLength(0), weights[i].GetLength(1)]);
             }
 
-            for (int i = 0; i < miniBatch.Count; i++)
+            foreach(Tuple<double[,], double[,]> batch in miniBatch)
             {
-                List<Tuple<double[,], double[,]>> deltaNablas = BackPropogation(miniBatch[i]);
-                for (int j = 0; j < nablas.Count; j++)
+                Tuple<List<double[,]>, List<double[,]>> deltaNablas = BackPropogation(batch);
+                for (int j = 0; j < numberLayers - 1; j++)
                 {
-                    double[,] nablaB = NeuralMath.AddMatrix(nablas[j].Item1, deltaNablas[j].Item1);
-                    double[,] nablaW = NeuralMath.AddMatrix(nablas[j].Item2, deltaNablas[j].Item2);
-                    nablas[j] = Tuple.Create(nablaB, nablaW);
+                    nablaB[j] = NeuralMath.AddMatrix(nablaB[j], deltaNablas.Item1[j]);
+                    nablaW[j] = NeuralMath.AddMatrix(nablaW[j], deltaNablas.Item2[j]);
                 }
             }
 
             for (int i = 0; i < numberLayers - 1; i++)
             {
-                biases[i] = NeuralMath.SubtractMatrix(biases[i], NeuralMath.ScaleMatrix(nablas[i].Item1, eta / miniBatch.Count));
-                weights[i] = NeuralMath.SubtractMatrix(weights[i], NeuralMath.ScaleMatrix(nablas[i].Item2, eta / miniBatch.Count));
+                biases[i] = NeuralMath.SubtractMatrix(biases[i], NeuralMath.ScaleMatrix(nablaB[i], eta / miniBatch.Count));
+                weights[i] = NeuralMath.SubtractMatrix(weights[i], NeuralMath.ScaleMatrix(nablaW[i], eta / miniBatch.Count));
             }
         }
 
@@ -226,11 +225,13 @@ namespace NeuralNetwork.Core
                         maxValue = output[row, 0];
                         maxIndex = row;
                     }
-                    if ((int)(Math.Round(testData[0].Item2[row, 0], MidpointRounding.AwayFromZero)) == 1)
+                    if ((int)(Math.Round(testData[i].Item2[row, 0], MidpointRounding.AwayFromZero)) == 1)
                     {
-                        expectedIndex = i;
+                        expectedIndex = row;
                     }
                 }
+
+                Console.WriteLine("Guess: " + maxIndex + " | Expected: " + expectedIndex);
 
                 if (maxIndex == expectedIndex)
                 {
