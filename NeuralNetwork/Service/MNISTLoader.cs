@@ -57,7 +57,7 @@ namespace NeuralNetwork.Service
                 double[,] image = new double[area, 1];
                 for (int px = 0; px < area; px++)
                 {
-                    image[px, 0] = imageBytes[16 + (imageNum * area) + px];
+                    image[px, 0] = (imageBytes[16 + (imageNum * area) + px]) / 255.0;
                 }
                 output.Add(image);
             }
