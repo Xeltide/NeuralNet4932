@@ -42,7 +42,7 @@ namespace NeuralNetwork
                 g.Clear(Color.AliceBlue);
                 g.DrawImage(new Bitmap(drawPanel.image, 28, 28), Point.Empty);
                 double[,] expected = Service.MNISTLoader.IntToVector(numberToDraw);
-                bool evaluated = network.EvaluateDrawn(Tuple.Create(drawPanel.Image, expected));
+                bool evaluated = network.EvaluateDrawn(Tuple.Create(drawPanel.GetImageData(), expected));
 
                 totalDrawn++;
                 if (evaluated)
