@@ -76,5 +76,13 @@ namespace NeuralNetwork.GUI
         {
             isDrawing = false;
         }
+
+        public void ClearPanel()
+        {
+            image = new Bitmap(ClientSize.Width, ClientSize.Height);
+
+            Graphics g = CreateGraphics();
+            g.DrawImage(image, Point.Empty);
+        }
     }
 }
