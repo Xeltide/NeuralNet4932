@@ -39,6 +39,7 @@
             this.correctLabel = new System.Windows.Forms.Label();
             this.drawPanelLabel = new System.Windows.Forms.Label();
             this.numToDrawLabel = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.drawPanel = new NeuralNetwork.GUI.DrawPanel();
             this.submitButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
@@ -99,13 +100,14 @@
             this.mainContainer.Name = "mainContainer";
             this.mainContainer.RowCount = 1;
             this.mainContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.mainContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.mainContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 775F));
             this.mainContainer.Size = new System.Drawing.Size(1144, 776);
             this.mainContainer.TabIndex = 2;
             // 
             // numberPanel
             // 
             this.numberPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.numberPanel.Controls.Add(this.panel1);
             this.numberPanel.Controls.Add(this.correctLabel);
             this.numberPanel.Controls.Add(this.drawPanelLabel);
             this.numberPanel.Controls.Add(this.numToDrawLabel);
@@ -148,6 +150,14 @@
             this.numToDrawLabel.TabIndex = 0;
             this.numToDrawLabel.Text = "2";
             this.numToDrawLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel1.Location = new System.Drawing.Point(138, 51);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(200, 100);
+            this.panel1.TabIndex = 2;
             // 
             // drawPanel
             // 
@@ -203,6 +213,7 @@
         private System.Windows.Forms.Label correctLabel;
         private GUI.DrawPanel drawPanel;
         private System.Windows.Forms.Button submitButton;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

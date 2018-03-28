@@ -13,7 +13,7 @@ namespace NeuralNetwork.GUI
         private float x, y;
         private float lastX, lastY;
         private bool isDrawing = false;
-        private Bitmap image;
+        public Bitmap image;
         public double[,] Image {
             get {
                 Bitmap scaled = new Bitmap(image, 28, 28);
@@ -63,7 +63,9 @@ namespace NeuralNetwork.GUI
             if (isDrawing)
             {
                 Graphics g = Graphics.FromImage(image);
-                Pen p = new Pen(Color.Black, 5);
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                Pen p = new Pen(Color.Black, 20);
                 g.DrawLine(p, lastX, lastY, x, y);
 
                 Graphics g_panel = CreateGraphics();

@@ -36,9 +36,11 @@ namespace NeuralNetwork
         }
 
         private void submitButton_Click(object sender, EventArgs e) {
-            drawPanel.ClearPanel();
             if (network != null)
             {
+                Graphics g = panel1.CreateGraphics();
+                g.Clear(Color.AliceBlue);
+                g.DrawImage(new Bitmap(drawPanel.image, 28, 28), Point.Empty);
                 double[,] expected = Service.MNISTLoader.IntToVector(numberToDraw);
                 bool evaluated = network.EvaluateDrawn(Tuple.Create(drawPanel.Image, expected));
 
@@ -52,6 +54,7 @@ namespace NeuralNetwork
                 numberToDraw = Core.NeuralRandom.Instance.GetRandom();
                 numToDrawLabel.Text = numberToDraw.ToString();
             }
+            drawPanel.ClearPanel();
         }
 
         private void loadNetMenuItem_Click(object sender, EventArgs e) {
