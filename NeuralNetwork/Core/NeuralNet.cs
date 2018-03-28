@@ -207,33 +207,38 @@ namespace NeuralNetwork.Core
             int count = 0;
             for (int i = 0; i < testData.Count; i++)
             {
-                double[,] output = FeedForward(testData[i].Item1);
-
-                int maxIndex = 0;
-                double maxValue = output[0, 0];
-                int expectedIndex = 0;
-                for (int row = 1; row < output.GetLength(0); row++)
-                {
-                    if (output[row, 0] > maxValue)
-                    {
-                        maxValue = output[row, 0];
-                        maxIndex = row;
-                    }
-                    if ((int)(Math.Round(testData[i].Item2[row, 0], MidpointRounding.AwayFromZero)) == 1)
-                    {
-                        expectedIndex = row;
-                    }
-                }
-
-                //Console.WriteLine("Guess: " + maxIndex + " | Expected: " + expectedIndex);
-
-                if (maxIndex == expectedIndex)
+                if (EvaluateDrawn(testData[i]))
                 {
                     count++;
                 }
             }
 
             return count;
+        }
+
+        public bool EvaluateDrawn(Tuple<double[,], double[,]> testData)
+        {
+            double[,] output = FeedForward(testData.Item1);
+
+            int maxIndex = 0;
+            double maxValue = output[0, 0];
+            int expectedIndex = 0;
+            for (int row = 1; row < output.GetLength(0); row++)
+            {
+                if (output[row, 0] > maxValue)
+                {
+                    maxValue = output[row, 0];
+                    maxIndex = row;
+                }
+                if ((int)(Math.Round(testData.Item2[row, 0], MidpointRounding.AwayFromZero)) == 1)
+                {
+                    expectedIndex = row;
+                }
+            }
+
+            Console.WriteLine("Guess: " + maxIndex + " | Expected: " + expectedIndex);
+
+            return maxIndex == expectedIndex;
         }
 
         public int GetNumLayers()

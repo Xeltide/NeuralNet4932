@@ -35,6 +35,11 @@ namespace NeuralNetwork.Core
             return mean + stdDev * randStdNormal;
         }
 
+        public int GetRandom()
+        {
+            return random.Next(0, 10);
+        }
+
         public IEnumerable<T> Shuffle<T>(IEnumerable<T> enumerable)
         {
             List<T> shuffled = new List<T>(enumerable);

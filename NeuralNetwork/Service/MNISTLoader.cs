@@ -96,7 +96,7 @@ namespace NeuralNetwork.Service
             return BitConverter.ToInt32(endian, 0);
         }
 
-        private double[,] IntToVector(int number)
+        public static double[,] IntToVector(int number)
         {
             double[,] output = new double[10, 1];
 

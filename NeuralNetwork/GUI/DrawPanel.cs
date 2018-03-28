@@ -22,7 +22,8 @@ namespace NeuralNetwork.GUI
                 {
                     for (int col = 0; col < scaled.Width; col++)
                     {
-                        output[col + (row * scaled.Width), 0] = scaled.GetPixel(col, row).R / 255.0;
+                        double r = scaled.GetPixel(col, row).A;
+                        output[col + (row * scaled.Width), 0] = scaled.GetPixel(col, row).A / 255.0;
                     }
                 }
 
@@ -32,8 +33,6 @@ namespace NeuralNetwork.GUI
 
         public DrawPanel()
         {
-            Dock = DockStyle.Fill;
-
             MouseDown += new MouseEventHandler(DrawStart);
             MouseMove += new MouseEventHandler(DrawMove);
             MouseUp += new MouseEventHandler(DrawEnd);
@@ -79,10 +78,12 @@ namespace NeuralNetwork.GUI
 
         public void ClearPanel()
         {
+            //image = new Bitmap(image, 28, 28);
             image = new Bitmap(ClientSize.Width, ClientSize.Height);
 
             Graphics g = CreateGraphics();
             g.DrawImage(image, Point.Empty);
+            Invalidate();
         }
     }
 }

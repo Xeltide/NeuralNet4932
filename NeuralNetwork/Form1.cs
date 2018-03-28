@@ -12,20 +12,55 @@ namespace NeuralNetwork
 {
     public partial class Form1 : Form
     {
+        private Core.NeuralNet network;
+        private int numberToDraw;
+        private int totalDrawn = 0;
+        private int correctDrawn = 0;
+
         public Form1()
         {
             InitializeComponent();
-            Service.MNISTLoader loader = new Service.MNISTLoader("train-images.idx3-ubyte", "train-labels.idx1-ubyte");
-            loader.Load();
-            Service.MNISTLoader testLoader = new Service.MNISTLoader("t10k-images.idx3-ubyte", "t10k-labels.idx1-ubyte");
-            testLoader.Load();
+            numberToDraw = Core.NeuralRandom.Instance.GetRandom();
+            numToDrawLabel.Text = numberToDraw.ToString();
+            //Service.MNISTLoader loader = new Service.MNISTLoader("train-images.idx3-ubyte", "train-labels.idx1-ubyte");
+            //loader.Load();
+            //Service.MNISTLoader testLoader = new Service.MNISTLoader("t10k-images.idx3-ubyte", "t10k-labels.idx1-ubyte");
+            //testLoader.Load();
 
-            List<int> size = new List<int> { 784, 30, 10 };
-            //Core.NeuralNet network = new Core.NeuralNet(size);
-            Core.NeuralNet network = Service.XMLBridge.Load("BrainChild3.xml");
-            // 0.064, 0.066 best results so far (leaning 0.064)
-            network.SGD(loader.Data, 3, 10, 0.064, testLoader.Data);
-            Service.XMLBridge.Save(network, "BrainChild3.xml");
+            //List<int> size = new List<int> { 784, 100, 10 };
+            ////Core.NeuralNet network = new Core.NeuralNet(size);
+            
+
+            //network.SGD(loader.Data, 2, 10, 2.0, testLoader.Data);
+            //Service.XMLBridge.Save(network, "BrainChild3.xml");
+        }
+
+        private void submitButton_Click(object sender, EventArgs e) {
+            drawPanel.ClearPanel();
+            if (network != null)
+            {
+                double[,] expected = Service.MNISTLoader.IntToVector(numberToDraw);
+                bool evaluated = network.EvaluateDrawn(Tuple.Create(drawPanel.Image, expected));
+
+                totalDrawn++;
+                if (evaluated)
+                {
+                    correctDrawn++;
+                }
+                correctLabel.Text = correctDrawn + " of " + totalDrawn + " Correct";
+
+                numberToDraw = Core.NeuralRandom.Instance.GetRandom();
+                numToDrawLabel.Text = numberToDraw.ToString();
+            }
+        }
+
+        private void loadNetMenuItem_Click(object sender, EventArgs e) {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "XML Files (*.xml) | *.xml";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                network = Service.XMLBridge.Load(dialog.FileName);
+            }
         }
     }
 }
