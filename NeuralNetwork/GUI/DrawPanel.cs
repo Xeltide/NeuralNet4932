@@ -10,8 +10,6 @@ namespace NeuralNetwork.GUI
 {
     class DrawPanel : Panel
     {
-        private float x, y;
-        private float lastX, lastY;
         private bool isDrawing = false;
         public Bitmap image;
         private List<Point> points;
@@ -59,7 +57,7 @@ namespace NeuralNetwork.GUI
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
                 g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
 
-                Pen p = new Pen(Color.Black, 25);
+                Pen p = new Pen(Color.Black, 10);
                 g.DrawLines(p, points.ToArray());
 
                 PaintPanel();

@@ -65,5 +65,9 @@ namespace NeuralNetwork
                 network = Service.XMLBridge.Load(dialog.FileName);
             }
         }
+
+        private void clearButton_Click(object sender, EventArgs e) {
+            drawPanel.ClearPanel();
+        }
     }
 }
