@@ -12,12 +12,10 @@ namespace NeuralNetwork.GUI
     {
         private bool isDrawing = false;
         public Bitmap image;
-        private List<Point> points;
+        private Point lastPos;
 
         public DrawPanel()
         {
-            points = new List<Point>();
-
             MouseDown += new MouseEventHandler(DrawStart);
             MouseMove += new MouseEventHandler(DrawMove);
             MouseUp += new MouseEventHandler(DrawEnd);
@@ -33,32 +31,25 @@ namespace NeuralNetwork.GUI
 
         private void DrawStart(object sender, MouseEventArgs e)
         {
-            points.Add(new Point(e.X, e.Y));
-            //x = e.X;
-            //y = e.Y;
-            //lastX = x;
-            //lastY = y;
+            lastPos = e.Location;
             isDrawing = true;
         }
 
         private void DrawMove(object sender, MouseEventArgs e)
         {
-            
-            //lastX = x;
-            //lastY = y;
-            //x = e.X;
-            //y = e.Y;
-
             if (isDrawing)
             {
-                points.Add(new Point(e.X, e.Y));
-
                 Graphics g = Graphics.FromImage(image);
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
                 g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
 
-                Pen p = new Pen(Color.Black, 10);
-                g.DrawLines(p, points.ToArray());
+                Pen p = new Pen(Color.Black, 20);
+                p.StartCap = System.Drawing.Drawing2D.LineCap.Round;
+                p.EndCap = System.Drawing.Drawing2D.LineCap.Round;
+                g.DrawLine(p, lastPos, e.Location);
+
+                lastPos = e.Location;
 
                 PaintPanel();
             }
@@ -66,7 +57,6 @@ namespace NeuralNetwork.GUI
 
         private void DrawEnd(object sender, MouseEventArgs e)
         {
-            points.Clear();
             isDrawing = false;
         }
 
@@ -100,7 +90,6 @@ namespace NeuralNetwork.GUI
         public void ClearPanel()
         {
             image = new Bitmap(ClientSize.Width, ClientSize.Height);
-
             Invalidate();
         }
     }

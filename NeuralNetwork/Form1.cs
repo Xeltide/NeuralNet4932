@@ -22,6 +22,7 @@ namespace NeuralNetwork
             InitializeComponent();
             numberToDraw = Core.NeuralRandom.Instance.GetRandom();
             numToDrawLabel.Text = numberToDraw.ToString();
+
             //Service.MNISTLoader loader = new Service.MNISTLoader("train-images.idx3-ubyte", "train-labels.idx1-ubyte");
             //loader.Load();
             //Service.MNISTLoader testLoader = new Service.MNISTLoader("t10k-images.idx3-ubyte", "t10k-labels.idx1-ubyte");
@@ -29,7 +30,7 @@ namespace NeuralNetwork
 
             //List<int> size = new List<int> { 784, 100, 10 };
             ////Core.NeuralNet network = new Core.NeuralNet(size);
-            
+
 
             //network.SGD(loader.Data, 2, 10, 2.0, testLoader.Data);
             //Service.XMLBridge.Save(network, "BrainChild3.xml");
