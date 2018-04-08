@@ -78,7 +78,7 @@ namespace NeuralNetwork.Service
                 double[,] imageData = new double[3072, 1];
                 for (int i = 0; i < 3072; i++)
                 {
-                    imageData[i, 1] = rawBytes[(image * 3073) + i + 1] / 255.0;
+                    imageData[i, 0] = rawBytes[(image * 3073) + i + 1] / 255.0;
                 }
                 Tuple<double[,], double[,]> pair = Tuple.Create(imageData, answer);
                 output.Add(pair);
