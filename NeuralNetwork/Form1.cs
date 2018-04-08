@@ -28,12 +28,17 @@ namespace NeuralNetwork
             //Service.MNISTLoader testLoader = new Service.MNISTLoader("t10k-images.idx3-ubyte", "t10k-labels.idx1-ubyte");
             //testLoader.Load();
 
-            //List<int> size = new List<int> { 784, 100, 10 };
-            ////Core.NeuralNet network = new Core.NeuralNet(size);
+            Service.CIFALoader loader = new Service.CIFALoader("data_batch_1.bin", "data_batch_2.bin",
+                "data_batch_3.bin", "data_batch_4.bin", "data_batch_5.bin", "test_batch.bin");
+            loader.Load();
 
+            //network = Service.XMLBridge.Load("CIFA.xml");
 
-            //network.SGD(loader.Data, 2, 10, 2.0, testLoader.Data);
-            //Service.XMLBridge.Save(network, "BrainChild3.xml");
+            List<int> size = new List<int> { 3072, 32, 7, 5, 10 };
+            Core.NeuralNet network = new Core.NeuralNet(size);
+
+            network.SGD(loader.Data, 1, 10, 0.5, loader.TestData);
+            Service.XMLBridge.Save(network, "CIFA.xml");
         }
 
         private void submitButton_Click(object sender, EventArgs e)
