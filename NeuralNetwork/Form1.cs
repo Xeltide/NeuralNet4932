@@ -36,14 +36,16 @@ namespace NeuralNetwork
             //Service.XMLBridge.Save(network, "BrainChild3.xml");
         }
 
-        private void submitButton_Click(object sender, EventArgs e) {
+        private void submitButton_Click(object sender, EventArgs e)
+        {
             if (network != null)
             {
-                Graphics g = panel1.CreateGraphics();
-                g.Clear(Color.AliceBlue);
-                g.DrawImage(new Bitmap(drawPanel.image, 28, 28), Point.Empty);
                 double[,] expected = Service.MNISTLoader.IntToVector(numberToDraw);
                 bool evaluated = network.EvaluateDrawn(Tuple.Create(drawPanel.GetImageData(), expected));
+
+                Graphics g = panel1.CreateGraphics();
+                g.Clear(SystemColors.ControlLightLight);
+                g.DrawImage(new Bitmap(drawPanel.scaledImage, 28, 28), Point.Empty);
 
                 totalDrawn++;
                 if (evaluated)
@@ -55,10 +57,12 @@ namespace NeuralNetwork
                 numberToDraw = Core.NeuralRandom.Instance.GetRandom();
                 numToDrawLabel.Text = numberToDraw.ToString();
             }
+            Focus();
             drawPanel.ClearPanel();
         }
 
-        private void loadNetMenuItem_Click(object sender, EventArgs e) {
+        private void loadNetMenuItem_Click(object sender, EventArgs e)
+        {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = "XML Files (*.xml) | *.xml";
             if (dialog.ShowDialog() == DialogResult.OK)
@@ -67,7 +71,8 @@ namespace NeuralNetwork
             }
         }
 
-        private void clearButton_Click(object sender, EventArgs e) {
+        private void clearButton_Click(object sender, EventArgs e)
+        {
             drawPanel.ClearPanel();
         }
     }

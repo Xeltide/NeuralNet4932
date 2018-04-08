@@ -77,7 +77,8 @@ namespace NeuralNetwork.GUI
                 g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
                 g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
 
-                Pen p = new Pen(Color.Black, 20);
+                Pen p = new Pen(Color.ForestGreen, 20);
+                
                 p.StartCap = System.Drawing.Drawing2D.LineCap.Round;
                 p.EndCap = System.Drawing.Drawing2D.LineCap.Round;
                 g.DrawLine(p, lastPos, e.Location);

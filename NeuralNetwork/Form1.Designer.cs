@@ -28,23 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importMNISTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadNetMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mainContainer = new System.Windows.Forms.TableLayoutPanel();
             this.numberPanel = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.correctLabel = new System.Windows.Forms.Label();
             this.drawPanelLabel = new System.Windows.Forms.Label();
             this.numToDrawLabel = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.drawPanel = new NeuralNetwork.GUI.DrawPanel();
-            this.clearButton = new System.Windows.Forms.Button();
-            this.submitButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.buttonPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.submitButton = new System.Windows.Forms.Button();
+            this.clearButton = new System.Windows.Forms.Button();
+            this.drawPanel = new NeuralNetwork.GUI.DrawPanel();
             this.menuStrip1.SuspendLayout();
             this.mainContainer.SuspendLayout();
             this.numberPanel.SuspendLayout();
@@ -69,7 +68,7 @@
             this.importMNISTToolStripMenuItem,
             this.loadNetMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(64, 36);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(64, 38);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // importMNISTToolStripMenuItem
@@ -85,12 +84,6 @@
             this.loadNetMenuItem.Text = "Load Net";
             this.loadNetMenuItem.Click += new System.EventHandler(this.loadNetMenuItem_Click);
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
             // mainContainer
             // 
             this.mainContainer.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
@@ -105,14 +98,13 @@
             this.mainContainer.Name = "mainContainer";
             this.mainContainer.RowCount = 1;
             this.mainContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.mainContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 775F));
+            this.mainContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 774F));
             this.mainContainer.Size = new System.Drawing.Size(1144, 775);
             this.mainContainer.TabIndex = 2;
             // 
             // numberPanel
             // 
             this.numberPanel.BackColor = System.Drawing.SystemColors.Control;
-            this.numberPanel.Controls.Add(this.panel1);
             this.numberPanel.Controls.Add(this.correctLabel);
             this.numberPanel.Controls.Add(this.drawPanelLabel);
             this.numberPanel.Controls.Add(this.numToDrawLabel);
@@ -122,15 +114,6 @@
             this.numberPanel.Name = "numberPanel";
             this.numberPanel.Size = new System.Drawing.Size(563, 765);
             this.numberPanel.TabIndex = 0;
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.panel1.Location = new System.Drawing.Point(234, 83);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(56, 54);
-            this.panel1.TabIndex = 2;
             // 
             // correctLabel
             // 
@@ -171,6 +154,8 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Controls.Add(this.panel1);
             this.panel2.Controls.Add(this.buttonPanel);
             this.panel2.Controls.Add(this.drawPanel);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -179,37 +164,24 @@
             this.panel2.Size = new System.Drawing.Size(564, 767);
             this.panel2.TabIndex = 1;
             // 
-            // drawPanel
+            // label1
             // 
-            this.drawPanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.drawPanel.Location = new System.Drawing.Point(39, 106);
-            this.drawPanel.Margin = new System.Windows.Forms.Padding(4);
-            this.drawPanel.Name = "drawPanel";
-            this.drawPanel.Size = new System.Drawing.Size(476, 476);
-            this.drawPanel.TabIndex = 2;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(120, 42);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(201, 25);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Last Drawn Number";
             // 
-            // clearButton
+            // panel1
             // 
-            this.clearButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.clearButton.Location = new System.Drawing.Point(285, 3);
-            this.clearButton.Name = "clearButton";
-            this.clearButton.Size = new System.Drawing.Size(276, 94);
-            this.clearButton.TabIndex = 4;
-            this.clearButton.Text = "Clear";
-            this.clearButton.UseVisualStyleBackColor = true;
-            this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
-            // 
-            // submitButton
-            // 
-            this.submitButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.submitButton.Location = new System.Drawing.Point(4, 4);
-            this.submitButton.Margin = new System.Windows.Forms.Padding(4);
-            this.submitButton.Name = "submitButton";
-            this.submitButton.Size = new System.Drawing.Size(274, 92);
-            this.submitButton.TabIndex = 3;
-            this.submitButton.Text = "Submit";
-            this.submitButton.UseVisualStyleBackColor = true;
-            this.submitButton.Click += new System.EventHandler(this.submitButton_Click);
+            this.panel1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Location = new System.Drawing.Point(328, 31);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(56, 54);
+            this.panel1.TabIndex = 2;
             // 
             // buttonPanel
             // 
@@ -225,6 +197,41 @@
             this.buttonPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.buttonPanel.Size = new System.Drawing.Size(564, 100);
             this.buttonPanel.TabIndex = 5;
+            // 
+            // submitButton
+            // 
+            this.submitButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.submitButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.submitButton.Location = new System.Drawing.Point(4, 4);
+            this.submitButton.Margin = new System.Windows.Forms.Padding(4);
+            this.submitButton.Name = "submitButton";
+            this.submitButton.Size = new System.Drawing.Size(274, 92);
+            this.submitButton.TabIndex = 3;
+            this.submitButton.Text = "Submit";
+            this.submitButton.UseVisualStyleBackColor = true;
+            this.submitButton.Click += new System.EventHandler(this.submitButton_Click);
+            // 
+            // clearButton
+            // 
+            this.clearButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.clearButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.clearButton.Location = new System.Drawing.Point(285, 3);
+            this.clearButton.Name = "clearButton";
+            this.clearButton.Size = new System.Drawing.Size(276, 94);
+            this.clearButton.TabIndex = 4;
+            this.clearButton.Text = "Clear";
+            this.clearButton.UseVisualStyleBackColor = true;
+            this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
+            // 
+            // drawPanel
+            // 
+            this.drawPanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.drawPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.drawPanel.Location = new System.Drawing.Point(39, 106);
+            this.drawPanel.Margin = new System.Windows.Forms.Padding(4);
+            this.drawPanel.Name = "drawPanel";
+            this.drawPanel.Size = new System.Drawing.Size(476, 476);
+            this.drawPanel.TabIndex = 2;
             // 
             // Form1
             // 
@@ -243,6 +250,7 @@
             this.mainContainer.ResumeLayout(false);
             this.numberPanel.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.buttonPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -251,7 +259,6 @@
 
         #endregion
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importMNISTToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadNetMenuItem;
@@ -266,6 +273,7 @@
         private System.Windows.Forms.TableLayoutPanel buttonPanel;
         private System.Windows.Forms.Button submitButton;
         private System.Windows.Forms.Button clearButton;
+        private System.Windows.Forms.Label label1;
     }
 }
 
