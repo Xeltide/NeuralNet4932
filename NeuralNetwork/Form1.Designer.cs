@@ -34,6 +34,7 @@
             this.loadNetMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainContainer = new System.Windows.Forms.TableLayoutPanel();
             this.numberPanel = new System.Windows.Forms.Panel();
+            this.prevGuessLabel = new System.Windows.Forms.Label();
             this.correctLabel = new System.Windows.Forms.Label();
             this.drawPanelLabel = new System.Windows.Forms.Label();
             this.numToDrawLabel = new System.Windows.Forms.Label();
@@ -68,7 +69,7 @@
             this.importMNISTToolStripMenuItem,
             this.loadNetMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(64, 38);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(64, 36);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // importMNISTToolStripMenuItem
@@ -105,6 +106,7 @@
             // numberPanel
             // 
             this.numberPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.numberPanel.Controls.Add(this.prevGuessLabel);
             this.numberPanel.Controls.Add(this.correctLabel);
             this.numberPanel.Controls.Add(this.drawPanelLabel);
             this.numberPanel.Controls.Add(this.numToDrawLabel);
@@ -114,6 +116,16 @@
             this.numberPanel.Name = "numberPanel";
             this.numberPanel.Size = new System.Drawing.Size(563, 765);
             this.numberPanel.TabIndex = 0;
+            // 
+            // prevGuessLabel
+            // 
+            this.prevGuessLabel.AutoSize = true;
+            this.prevGuessLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.prevGuessLabel.Location = new System.Drawing.Point(145, 682);
+            this.prevGuessLabel.Name = "prevGuessLabel";
+            this.prevGuessLabel.Size = new System.Drawing.Size(259, 37);
+            this.prevGuessLabel.TabIndex = 3;
+            this.prevGuessLabel.Text = "Previous Guess: ";
             // 
             // correctLabel
             // 
@@ -149,7 +161,6 @@
             this.numToDrawLabel.Name = "numToDrawLabel";
             this.numToDrawLabel.Size = new System.Drawing.Size(563, 765);
             this.numToDrawLabel.TabIndex = 0;
-            this.numToDrawLabel.Text = "2";
             this.numToDrawLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel2
@@ -249,6 +260,7 @@
             this.menuStrip1.PerformLayout();
             this.mainContainer.ResumeLayout(false);
             this.numberPanel.ResumeLayout(false);
+            this.numberPanel.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.buttonPanel.ResumeLayout(false);
@@ -274,6 +286,7 @@
         private System.Windows.Forms.Button submitButton;
         private System.Windows.Forms.Button clearButton;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label prevGuessLabel;
     }
 }
 

@@ -23,22 +23,44 @@ namespace NeuralNetwork
             numberToDraw = Core.NeuralRandom.Instance.GetRandom();
             numToDrawLabel.Text = numberToDraw.ToString();
 
+            // ---- Uncomment to load MNIST dataset ---- //
             //Service.MNISTLoader loader = new Service.MNISTLoader("train-images.idx3-ubyte", "train-labels.idx1-ubyte");
             //loader.Load();
             //Service.MNISTLoader testLoader = new Service.MNISTLoader("t10k-images.idx3-ubyte", "t10k-labels.idx1-ubyte");
             //testLoader.Load();
+            // ----------------------------------------- //
 
-            Service.CIFALoader loader = new Service.CIFALoader("data_batch_1.bin", "data_batch_2.bin",
-                "data_batch_3.bin", "data_batch_4.bin", "data_batch_5.bin", "test_batch.bin");
-            loader.Load();
+            // ---- Uncomment to load CIFAR-10 dataset ---- //
+            //Service.CIFALoader loader = new Service.CIFALoader("data_batch_1.bin", "data_batch_2.bin",
+            //    "data_batch_3.bin", "data_batch_4.bin", "data_batch_5.bin", "test_batch.bin");
+            //loader.Load();
+            // -------------------------------------------- //
 
+            // ---- Uncomment and change filename to load weights/biases from file ---- //
             //network = Service.XMLBridge.Load("CIFA.xml");
+            // ------------------------------------------------------------------------ //
 
-            List<int> size = new List<int> { 3072, 32, 7, 5, 10 };
-            Core.NeuralNet network = new Core.NeuralNet(size);
+            // ---- Uncomment to create new network without file for MNIST dataset ---- //
+            //List<int> size = new List<int> { 768, 30, 10 };
+            //Core.NeuralNet network = new Core.NeuralNet(size);
+            // ------------------------------------------------------------------------ //
 
-            network.SGD(loader.Data, 1, 10, 0.5, loader.TestData);
-            Service.XMLBridge.Save(network, "CIFA.xml");
+            // ---- Uncomment to create new network without file for CIFAR-10 dataset ---- //
+            //List<int> size = new List<int> { 3072, 20, 7, 5, 10 };
+            //Core.NeuralNet network = new Core.NeuralNet(size);
+            // --------------------------------------------------------------------------- //
+
+            // ---- Uncomment to start gradient descent for MNIST dataset ---- //
+            //network.SGD(loader.Data, 5, 10, 3.0, testLoader.Data);
+            // --------------------------------------------------------------- //
+
+            // ---- Uncomment to start gradient descent for CIFAR-10 dataset ---- //
+            //network.SGD(loader.Data, 5, 10, 3.0, loader.TestData);
+            // ------------------------------------------------------------------ //
+
+            // ---- Uncomment to save weights and biases to file ---- //
+            //Service.XMLBridge.Save(network, "CIFA.xml");
+            // ------------------------------------------------------ //
         }
 
         private void submitButton_Click(object sender, EventArgs e)
@@ -46,7 +68,8 @@ namespace NeuralNetwork
             if (network != null)
             {
                 double[,] expected = Service.MNISTLoader.IntToVector(numberToDraw);
-                bool evaluated = network.EvaluateDrawn(Tuple.Create(drawPanel.GetImageData(), expected));
+                int guess = 0;
+                bool evaluated = network.EvaluateDrawn(Tuple.Create(drawPanel.GetImageData(), expected), out guess);
 
                 Graphics g = panel1.CreateGraphics();
                 g.Clear(SystemColors.ControlLightLight);
@@ -57,6 +80,9 @@ namespace NeuralNetwork
                 {
                     correctDrawn++;
                 }
+
+                prevGuessLabel.Text = "Previous Guess: " + guess;
+
                 correctLabel.Text = correctDrawn + " of " + totalDrawn + " Correct";
 
                 numberToDraw = Core.NeuralRandom.Instance.GetRandom();

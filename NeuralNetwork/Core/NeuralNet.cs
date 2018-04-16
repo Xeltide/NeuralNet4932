@@ -207,7 +207,7 @@ namespace NeuralNetwork.Core
             int count = 0;
             for (int i = 0; i < testData.Count; i++)
             {
-                if (EvaluateDrawn(testData[i]))
+                if (EvaluateDrawn(testData[i], out _))
                 {
                     count++;
                 }
@@ -216,7 +216,7 @@ namespace NeuralNetwork.Core
             return count;
         }
 
-        public bool EvaluateDrawn(Tuple<double[,], double[,]> testData)
+        public bool EvaluateDrawn(Tuple<double[,], double[,]> testData, out int guess)
         {
             double[,] output = FeedForward(testData.Item1);
 
@@ -236,7 +236,7 @@ namespace NeuralNetwork.Core
                 }
             }
 
-            Console.WriteLine("Guess: " + maxIndex + " | Expected: " + expectedIndex);
+            guess = maxIndex;
 
             return maxIndex == expectedIndex;
         }
