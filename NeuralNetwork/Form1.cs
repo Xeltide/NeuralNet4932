@@ -42,12 +42,12 @@ namespace NeuralNetwork
 
             // ---- Uncomment to create new network without file for MNIST dataset ---- //
             //List<int> size = new List<int> { 768, 30, 10 };
-            //Core.NeuralNet network = new Core.NeuralNet(size);
+            //network = new Core.NeuralNet(size);
             // ------------------------------------------------------------------------ //
 
             // ---- Uncomment to create new network without file for CIFAR-10 dataset ---- //
             //List<int> size = new List<int> { 3072, 20, 7, 5, 10 };
-            //Core.NeuralNet network = new Core.NeuralNet(size);
+            //network = new Core.NeuralNet(size);
             // --------------------------------------------------------------------------- //
 
             // ---- Uncomment to start gradient descent for MNIST dataset ---- //
