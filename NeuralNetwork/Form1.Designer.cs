@@ -30,7 +30,6 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importMNISTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadNetMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainContainer = new System.Windows.Forms.TableLayoutPanel();
             this.numberPanel = new System.Windows.Forms.Panel();
@@ -59,30 +58,23 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1144, 40);
+            this.menuStrip1.Size = new System.Drawing.Size(1144, 42);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.importMNISTToolStripMenuItem,
             this.loadNetMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(64, 36);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(64, 38);
             this.fileToolStripMenuItem.Text = "File";
-            // 
-            // importMNISTToolStripMenuItem
-            // 
-            this.importMNISTToolStripMenuItem.Name = "importMNISTToolStripMenuItem";
-            this.importMNISTToolStripMenuItem.Size = new System.Drawing.Size(264, 38);
-            this.importMNISTToolStripMenuItem.Text = "Import MNIST";
             // 
             // loadNetMenuItem
             // 
             this.loadNetMenuItem.Name = "loadNetMenuItem";
-            this.loadNetMenuItem.Size = new System.Drawing.Size(264, 38);
-            this.loadNetMenuItem.Text = "Load Net";
+            this.loadNetMenuItem.Size = new System.Drawing.Size(317, 38);
+            this.loadNetMenuItem.Text = "Load Net From File";
             this.loadNetMenuItem.Click += new System.EventHandler(this.loadNetMenuItem_Click);
             // 
             // mainContainer
@@ -94,13 +86,13 @@
             this.mainContainer.Controls.Add(this.numberPanel, 1, 0);
             this.mainContainer.Controls.Add(this.panel2, 0, 0);
             this.mainContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainContainer.Location = new System.Drawing.Point(0, 40);
+            this.mainContainer.Location = new System.Drawing.Point(0, 42);
             this.mainContainer.Margin = new System.Windows.Forms.Padding(4);
             this.mainContainer.Name = "mainContainer";
             this.mainContainer.RowCount = 1;
             this.mainContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.mainContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 774F));
-            this.mainContainer.Size = new System.Drawing.Size(1144, 775);
+            this.mainContainer.Size = new System.Drawing.Size(1144, 773);
             this.mainContainer.TabIndex = 2;
             // 
             // numberPanel
@@ -114,7 +106,7 @@
             this.numberPanel.Location = new System.Drawing.Point(576, 5);
             this.numberPanel.Margin = new System.Windows.Forms.Padding(4);
             this.numberPanel.Name = "numberPanel";
-            this.numberPanel.Size = new System.Drawing.Size(563, 765);
+            this.numberPanel.Size = new System.Drawing.Size(563, 763);
             this.numberPanel.TabIndex = 0;
             // 
             // prevGuessLabel
@@ -131,7 +123,7 @@
             // 
             this.correctLabel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.correctLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.correctLabel.Location = new System.Drawing.Point(0, 725);
+            this.correctLabel.Location = new System.Drawing.Point(0, 723);
             this.correctLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.correctLabel.Name = "correctLabel";
             this.correctLabel.Size = new System.Drawing.Size(563, 40);
@@ -159,7 +151,7 @@
             this.numToDrawLabel.Location = new System.Drawing.Point(0, 0);
             this.numToDrawLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.numToDrawLabel.Name = "numToDrawLabel";
-            this.numToDrawLabel.Size = new System.Drawing.Size(563, 765);
+            this.numToDrawLabel.Size = new System.Drawing.Size(563, 763);
             this.numToDrawLabel.TabIndex = 0;
             this.numToDrawLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -172,7 +164,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(4, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(564, 767);
+            this.panel2.Size = new System.Drawing.Size(564, 765);
             this.panel2.TabIndex = 1;
             // 
             // label1
@@ -202,7 +194,7 @@
             this.buttonPanel.Controls.Add(this.submitButton, 0, 0);
             this.buttonPanel.Controls.Add(this.clearButton, 1, 0);
             this.buttonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.buttonPanel.Location = new System.Drawing.Point(0, 667);
+            this.buttonPanel.Location = new System.Drawing.Point(0, 665);
             this.buttonPanel.Name = "buttonPanel";
             this.buttonPanel.RowCount = 1;
             this.buttonPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -272,7 +264,6 @@
         #endregion
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem importMNISTToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadNetMenuItem;
         private System.Windows.Forms.TableLayoutPanel mainContainer;
         private System.Windows.Forms.Panel numberPanel;
